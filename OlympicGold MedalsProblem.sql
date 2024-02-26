@@ -23,3 +23,15 @@ where s_events.silver is null and b_events.bronze is null
 select player_name,count(*)
 from cte
 group by player_name
+---using cte and group by 
+with cte as (
+select gold player_name,'gold' award from events
+union all
+select silver player_name,'silver' award from events
+union all
+select bronze player_name,'bronze' award from events	
+)
+select player_name,count(*)
+from cte
+group by player_name
+having count(distinct award)=1 and max(award)='gold'
